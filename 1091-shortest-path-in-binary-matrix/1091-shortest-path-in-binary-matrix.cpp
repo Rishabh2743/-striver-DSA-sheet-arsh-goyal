@@ -7,7 +7,6 @@ public:
         int n = grid.size();
         if(n==1)
         return 1;
-        // int m = grid[0].size();
         
         vector<vector<int>> dist(n,vector<int>(n,INT_MAX));
         
