@@ -3,14 +3,12 @@ public:
     int smallestRangeI(vector<int>& nums, int k) {
         int a=*max_element(nums.begin(),nums.end());
         int b=*min_element(nums.begin(),nums.end());
-        int ans=a-b;
-        while(k!=0){
-            a-=1;
-            ans=min(ans,abs(a-b));
-            b+=1;
-            ans=min(ans,abs(a-b));
-            k--;
+       int  t=a-b-(2*k);
+        if(t>0)
+        {
+            return t;
         }
-        return ans;
+       return 0;
+
     }
 };
