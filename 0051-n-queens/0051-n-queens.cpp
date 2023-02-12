@@ -1,26 +1,57 @@
 class Solution {
 public:
-    void start(int c,vector<string> &b,vector<vector<string>> &ans,vector<int> &l,vector<int> &ud,vector<int> &ld,int n){
-        if(c==n){
-            ans.push_back(b);
-            return;
+    bool isSafe1(int row, int col, vector < string > board, int n) {
+      // check upper element
+      int duprow = row;
+      int dupcol = col;
+
+      while (row >= 0 && col >= 0) {
+        if (board[row][col] == 'Q')
+          return false;
+        row--;
+        col--;
+      }
+
+      col = dupcol;
+      row = duprow;
+      while (col >= 0) {
+        if (board[row][col] == 'Q')
+          return false;
+        col--;
+      }
+
+      row = duprow;
+      col = dupcol;
+      while (row < n && col >= 0) {
+        if (board[row][col] == 'Q')
+          return false;
+        row++;
+        col--;
+      }
+      return true;
+    }
+    void solve(int col, vector < string > & board, vector < vector < string >> & ans, int n) {
+      if (col == n) {
+        ans.push_back(board);
+        return;
+      }
+      for (int row = 0; row < n; row++) {
+        if (isSafe1(row, col, board, n)) {
+          board[row][col] = 'Q';
+          solve(col + 1, board, ans, n);
+          board[row][col] = '.';
         }
-        for(int r=0;r<n;r++){
-            if(l[r]==0 && ld[r+c]==0 && ud[n-1+c-r]==0){
-                b[r][c]='Q';
-                l[r]=1,ld[r+c]=1,ud[n-1+c-r]=1;
-                start(c+1,b,ans,l,ud,ld,n);
-                b[r][c]='.';
-                l[r]=0,ld[r+c]=0,ud[n-1+c-r]=0;
-            }
-        }
+      }
     }
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> ans;
+        vector<vector<string>>ans;
+        vector<string>board(n);
         string s(n,'.');
-        vector<string> b(n,s);
-        vector<int> l(n,0),ud(2*n-1,0),ld(2*n-1,0);
-        start(0,b,ans,l,ud,ld,n);
+        for(int i=0;i<n;i++){
+            board[i]=s;
+        }
+        solve(0,board,ans,n);
         return ans;
+        
     }
 };
